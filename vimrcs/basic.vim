@@ -31,7 +31,7 @@
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
-set history=500
+set history=2000
 
 " Enable filetype plugins
 filetype plugin on
@@ -124,7 +124,17 @@ endif
 
 
 " Add a bit extra margin to the left
-set foldcolumn=1
+"set foldcolumn=1
+
+
+" Default window size (GUI)
+if has("gui_running")
+    set lines=50 columns=86
+endif
+
+
+" Vertical margin
+set colorcolumn=80
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -159,14 +169,37 @@ set encoding=utf8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
+" Line numbers (GUI)
+if has("gui_running")
+    set number
+    highlight LineNr guifg=grey
+endif
+
+" Font
+if has("gui_running")
+    if has("gui_win32")
+        set guifont=Consolas 10
+    else
+        try
+            set guifont=Hack\ 10
+        catch
+            echom "Warning: Could not set custom font"
+        endtry
+    endif
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
+if has("win16") || has("win32")
+    set backupdir=$HOME/_vim/_backup//
+    set undodir=$HOME/_vim/_undo//
+    set directory=$HOME/_vim/_swp//
+else
+    set backupdir=$HOME/.vim/.backup//
+    set undodir=$HOME/.vim/.undo//
+    set directory=$HOME/.vim/.swp//
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
