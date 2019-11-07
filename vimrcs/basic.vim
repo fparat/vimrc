@@ -1,6 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
-"       Amir Salihefendic — @amix3k
+"       Amir Salihefendic - @amix3k
 "
 " Awesome_version:
 "       Get this config, nice color schemes and lots of plugins!
@@ -132,6 +132,10 @@ if has("gui_running")
     set lines=50 columns=86
 endif
 
+" Larger window for diff
+if &diff
+    set columns=200
+endif
 
 " Vertical margin
 set colorcolumn=80
@@ -165,6 +169,7 @@ endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
+set nobomb
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -175,10 +180,13 @@ if has("gui_running")
     highlight LineNr guifg=grey
 endif
 
+" Highlight cursor position line
+set cursorline
+
 " Font
 if has("gui_running")
     if has("gui_win32")
-        set guifont=Consolas 10
+        set guifont=Consolas:h10
     else
         try
             set guifont=Hack\ 10
@@ -191,15 +199,18 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has("win16") || has("win32")
-    set backupdir=$HOME/_vim/_backup//
-    set undodir=$HOME/_vim/_undo//
-    set directory=$HOME/_vim/_swp//
+if has("win16") || has("win32") || has("win32unix")
+    set backupdir=$HOME/vimfiles/_backup//
+    set undodir=$HOME/vimfiles/_undo//
+    set directory=$HOME/vimfiles/_swp//
 else
     set backupdir=$HOME/.vim/.backup//
     set undodir=$HOME/.vim/.undo//
     set directory=$HOME/.vim/.swp//
 endif
+
+" Auto-save on focus lost
+:au FocusLost * silent! wa
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -303,7 +314,7 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
-map 0 ^
+" map 0 ^
 
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -359,6 +370,15 @@ map <leader>x :e ~/buffer.md<cr>
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pathogen
+"if has("win16") || has("win32")
+"    execute pathogen#infect()
+"endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
